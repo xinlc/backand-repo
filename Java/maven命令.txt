@@ -1,0 +1,17 @@
+mvn clean     //清理项目
+mvn test      //测试项目 junit
+mvn package   //生成包
+mvn eclipse:clean    //清理eclipse项目
+mvn eclipse:eclipse  //打包eclipse 项目
+mvn site              //发布
+
+mvn dependency:tree
+
+
+
+
+<Resource name="jdbcqrw" type="javax.sql.DataSource"
+                maxActive="550" maxIdle="80"
+                logAbandoned="true"  removeAbandoned="true" removeAbandonedTimeout="60"
+                driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306q?characterEncoding=UTF-8"
+                username="dbadmin" password="Cyq160115" />

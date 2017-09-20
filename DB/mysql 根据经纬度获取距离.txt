@@ -1,0 +1,27 @@
+CREATE DEFINER=`root`@`localhost` FUNCTION `getDistance`(`arg_lat` VARCHAR(20), `arg_lon` VARCHAR(20), `arg_userLat` VARCHAR(20), `arg_userLon` VARCHAR(20))
+	RETURNS float
+	LANGUAGE SQL
+	NOT DETERMINISTIC
+	NO SQL
+	SQL SECURITY DEFINER
+	COMMENT '通过传入的经纬度，获得2点之间的距离（km）'
+BEGIN
+    DECLARE distance float(8,1);
+    DECLARE lat, lon, userLat, userLon DECIMAL(14,4);
+
+    SET lat = CAST(arg_lat AS DECIMAL(14,4));
+    SET lon = CAST(arg_lon AS DECIMAL(14,4));
+    SET userLat = CAST(arg_userLat AS DECIMAL(14,4));
+    SET userLon = CAST(arg_userLon AS DECIMAL(14,4));
+
+     IF ISNULL(lat) OR ISNULL(lon) OR lat = "" OR lon = "" THEN
+        RETURN 9999.99;
+     ELSE
+        SELECT
+            6371 * 2 * ASIN(SQRT(POWER(SIN((lat - userLat) * PI() / 180 / 2), 2) + COS(lat * PI() / 180) * COS(ABS(userLat) * PI() / 180) * POWER(SIN((lon - userLon) * PI() / 180 / 2), 2)))
+        INTO
+            distance;
+
+        RETURN distance;
+     END IF;
+END
